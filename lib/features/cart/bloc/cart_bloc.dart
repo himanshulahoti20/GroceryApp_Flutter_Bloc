@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:grocery_app/data/cart_items.dart';
 import 'package:grocery_app/models/product_data_model.dart';
@@ -11,15 +10,19 @@ part 'cart_state.dart';
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(CartInitial()) {
     on<CartIntialEvent>(cartIntialEvent);
-   on<CartRemoveEvent>(cartRemoveEvent);
+    on<CartRemoveEvent>(cartRemoveEvent);
   }
 
-  FutureOr<void> cartRemoveEvent(CartRemoveEvent event, Emitter<CartState> emit) {
-    print('Product Removed from Cart');
+  FutureOr<void> cartRemoveEvent(
+      CartRemoveEvent event, Emitter<CartState> emit) {
     cartItems.remove(event.clickedProduct);
+    emit(CartSuccessState(cartItems: cartItems));
   }
 
-  FutureOr<void> cartIntialEvent(CartIntialEvent event, Emitter<CartState> emit) {
+  FutureOr<void> cartIntialEvent(
+      CartIntialEvent event, Emitter<CartState> emit) async {
+    emit(CartLoadingState());
+    await Future.delayed(const Duration(seconds: 1));
     emit(CartSuccessState(cartItems: cartItems));
   }
 }

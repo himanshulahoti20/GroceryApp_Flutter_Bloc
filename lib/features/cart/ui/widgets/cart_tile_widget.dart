@@ -25,11 +25,14 @@ class _CartTileWidgetState extends State<CartTileWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Image(
-              height: 80,
-              width: 80,
-              image: NetworkImage(widget.productDataModel.image),
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image(
+                height: 80,
+                width: 80,
+                image: NetworkImage(widget.productDataModel.image),
+                fit: BoxFit.cover,
+              ),
             ),
             SizedBox(
               width: 130,
