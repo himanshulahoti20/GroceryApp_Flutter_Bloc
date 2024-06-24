@@ -1,10 +1,10 @@
 part of 'wishlist_bloc.dart';
 
 @immutable
-sealed class WishlistState {}
+abstract class WishlistState {}
 
 
-sealed class WishlistActionState extends WishlistState {}
+abstract class WishlistActionState extends WishlistState {}
 
 
 final class WishlistInitial extends WishlistState {}

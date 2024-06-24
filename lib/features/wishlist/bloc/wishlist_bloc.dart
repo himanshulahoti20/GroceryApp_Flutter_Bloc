@@ -18,12 +18,14 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
 
   FutureOr<void> wishlistAddedToCartEvent(WishlistAddedToCartEvent event, Emitter<WishlistState> emit) {
     wishlistItems.remove(event.clickedProduct);
-    cartItems.remove(event.clickedProduct);
+    cartItems.add(event.clickedProduct);
+     emit(WishlistItemAddedToCartState());
     emit(WishlistSuccessState(wishlistItems: wishlistItems));
   }
 
   FutureOr<void> wishlistRemoveEvent(WishlistRemoveEvent event, Emitter<WishlistState> emit) {
         wishlistItems.remove(event.clickedProduct);
+        emit(WishlistItemRemovedState());
     emit(WishlistSuccessState(wishlistItems: wishlistItems));
   }
 

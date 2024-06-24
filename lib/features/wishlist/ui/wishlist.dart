@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/features/cart/ui/cart.dart';
 import 'package:grocery_app/features/wishlist/bloc/wishlist_bloc.dart';
 import 'package:grocery_app/features/wishlist/ui/widgets/wishlist_tile_widget.dart';
 
@@ -30,12 +31,19 @@ class _WishlistState extends State<Wishlist> {
         bloc: wishlistBloc,
         listenWhen: (previous, current) => current is WishlistActionState,
         buildWhen: (previous, current) => current is! WishlistActionState,
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is WishlistItemAddedToCartState) {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Product Added to Cart'),
+              ),
+            );
+            await Future.delayed(const Duration(seconds: 1));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Cart(),
               ),
             );
           } else if (state is WishlistItemRemovedState) {
@@ -49,9 +57,9 @@ class _WishlistState extends State<Wishlist> {
         },
         builder: (context, state) {
           switch (state.runtimeType) {
-            case WishlistLoadingState:
+            case const (WishlistLoadingState):
               return const Center(child: CircularProgressIndicator());
-            case WishlistSuccessState:
+            case const (WishlistSuccessState):
               final successState = state as WishlistSuccessState;
               if (successState.wishlistItems.isNotEmpty) {
                 return ListView.builder(
@@ -74,7 +82,7 @@ class _WishlistState extends State<Wishlist> {
                   ),
                 );
               }
-            case WishlistErrorState:
+            case const (WishlistErrorState):
               return const Center(
                 child: Text('Error'),
               );
